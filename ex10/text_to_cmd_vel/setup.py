@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'sear'
+package_name = 'text_to_cmd_vel'
 
 setup(
     name=package_name,
@@ -14,13 +14,13 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='sear',
-    maintainer_email='v.krukovskii@g.nsu.ru',
-    description='Beginner client libraries tutorials practice package',
+    maintainer_email='vasilijkrukovskij2015@gmail.com',
+    description='CMD',
     license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'my_node = sear.my_node:main'
+	    'text_to_cmd_vel = text_to_cmd_vel.publish:main'
         ],
     },
 )
