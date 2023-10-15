@@ -1,0 +1,7 @@
+Starting >>> sear
+Starting >>> turtlesim
+Finished <<< sear [0.77s]
+Finished <<< turtlesim [0.84s]
+
+Summary: 2 packages finished [1.01s]
+  1 package had stderr output: sear
