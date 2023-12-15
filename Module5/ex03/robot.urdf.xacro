@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot">
+<xacro:include filename="$(find robot_description)/urdf/gazebo.urdf.xacro" />
+  
+<!-- Константы: цвета-->
+<material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+<!-- Константы: параметры квадрокоптера -->
+<xacro:property name="base_width" value="0.2"/>
+<xacro:property name="base_length" value="0.7"/>
+<xacro:property name="base_high" value="0.1"/>
+<xacro:property name="base_mass" value="0.05"/>
+
+<xacro:property name="propeller_width" value="0.075"/>
+<xacro:property name="propeller_length" value="0.6"/>
+<xacro:property name="propeller_high" value="0.005"/>
+
+<xacro:property name="wheel_width" value="0.2"/>
+<xacro:property name="wheel_radius" value="0.1"/>
+
+<xacro:property name="wheel_mass" value="0.02"/>
+<xacro:property name="propeller_mass" value="0.001"/>
+
+
+<!-- Создание объекта: Основание -->
+<link name="base_link">
+  <visual>
+     <geometry>
+        <box size="${base_length} ${base_width} ${base_high}"/>
+      </geometry>
+      <material name="white"/>
+  </visual>
+  <collision>
+      <geometry>
+        <box size="${base_length} ${base_width} ${base_high}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${base_mass}"/>
+      <inertia ixx="${(base_mass/12)*(base_width*base_width+base_high*base_high)}" ixy="0.0" ixz="0.0" 
+      		iyy="${(base_mass/12)*(base_length*base_length+base_high*base_high)}" iyz="0.0" 
+      		izz="${(base_mass/12)*(base_width*base_width+base_length*base_length)}"/>
+    </inertial>
+</link>
+
+<!-- Реализация класса: Крыло и Крепёж крыла-->
+<xacro:macro name="wing" params="prefix rpy xyz">
+  <link name="wing_${prefix}">
+    <visual>
+        <geometry>
+            <box size="${base_length} ${base_width} ${base_high}"/>
+        </geometry>
+        <material name="white"/>
+    </visual>
+    <collision>
+        <geometry>
+            <box size="${base_length} ${base_width} ${base_high}"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="${base_mass}"/>
+      <inertia ixx="${(base_mass/12)*(base_width*base_width+base_high*base_high)}" ixy="0.0" ixz="0.0" 
+      		iyy="${(base_mass/12)*(base_length*base_length+base_high*base_high)}" iyz="0.0" 
+      		izz="${(base_mass/12)*(base_width*base_width+base_length*base_length)}"/>
+    </inertial>
+  </link>
+  <joint name="wing_${prefix}_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="wing_${prefix}"/>
+    <origin xyz="${xyz}" rpy="${rpy}"/>
+  </joint>
+</xacro:macro>
+
+<!-- Реализация класса: Пропеллер и Крепёж пропеллера-->
+<xacro:macro name="propeller" params="prefix rpy xyz">
+
+  <link name="propeller_${prefix}">
+    <visual>
+        <origin rpy="${rpy}"/>
+        <geometry>
+            <box size="${propeller_length} ${propeller_width} ${propeller_high}"/>
+        </geometry>
+        <material name="blue"/>
+    </visual>
+    <collision>
+        <origin rpy="${rpy}"/>
+        <geometry>
+            <box size="${propeller_length} ${propeller_width} ${propeller_high}"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="${propeller_mass}"/>
+      <inertia ixx="${(propeller_mass/12)*(propeller_width*propeller_width+propeller_high*propeller_high)}" ixy="0.0" ixz="0.0" 
+      		    iyy="${(propeller_mass/12)*(propeller_length*propeller_length+propeller_high*propeller_high)}" iyz="0.0" 
+      		    izz="${(propeller_mass/12)*(propeller_width*propeller_width+propeller_length*propeller_length)}"/>
+    </inertial>
+  </link>
+  <joint name="propeller_${prefix}_joint" type="continuous">
+    <parent link="wing_${prefix}"/>
+    <child link="propeller_${prefix}"/>
+    <origin xyz="${xyz}"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+</xacro:macro> 
+
+<!-- Реализация класса: Колесо -->
+<!-- <xacro:macro name="wheel" params="prefix xyz sign">
+  <link name="wheel_${prefix}">
+
+    <visual>
+       <geometry>
+           <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+       </geometry>
+       <material name="black"/>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <sphere radius="${wheel_radius}"/>
+      </geometry>
+    </collision>
+    
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${(1/12) * wheel_mass * (3*wheel_radius*wheel_radius + wheel_width*wheel_width)}" ixy="0.0" ixz="0.0"
+               iyy="${(1/12) * wheel_mass * (3*wheel_radius*wheel_radius + wheel_width*wheel_width)}" iyz="0.0"
+               izz="${(1/2) * wheel_mass * (wheel_radius*wheel_radius)}" />
+      </inertial>
+  </link>
+  <joint name="wheel_${prefix}_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_${prefix}"/>
+    <origin xyz="${xyz}" rpy="${-sign*pi/2} 0 0"/>
+    <axis xyz="0 0 ${sign}"/>
+  </joint>
+</xacro:macro>  -->
+
+<xacro:macro name="wheel" params="prefix reflect reflect2">
+  <link name="wheel_${prefix}">
+    <visual>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="${wheel_radius}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${wheel_mass}" />
+      <inertia ixx="${(1/12) * wheel_mass * (3*wheel_radius*wheel_radius + wheel_width*wheel_width)}" ixy="0.0" ixz="0.0"
+                iyy="${(1/12) * wheel_mass * (3*wheel_radius*wheel_radius + wheel_width*wheel_width)}" iyz="0.0"
+                izz="${(1/2) * wheel_mass * (wheel_radius*wheel_radius)}" />
+    </inertial>
+  </link>
+  <joint name="wheel_${prefix}_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_${prefix}"/>
+    <axis xyz="0 0 ${reflect2}"/>
+    <origin xyz="${reflect * (base_length/2 + 0.12*base_length)} ${reflect2 * (base_width * 2 + 0.2*base_width)} ${-1.5*base_high}"
+    rpy="${-reflect2 * pi/2} 0 0"/>
+  </joint>
+
+</xacro:macro>
+
+<!-- Создание объектов и их свойств: Крыло -->
+<xacro:wing prefix="forward_right" rpy="0 0 ${7*pi/4}" xyz="${-base_length/2} ${base_width} 0"/>
+<xacro:wing prefix="forward_left" rpy="0 0 ${5*pi/4}" xyz="${-base_length/2} ${-base_width} 0"/>
+<xacro:wing prefix="backward_right" rpy="0 0 ${1*pi/4}" xyz="${base_length/2} ${base_width} 0"/> 
+<xacro:wing prefix="backward_left" rpy="0 0 ${3*pi/4}" xyz="${base_length/2} ${-base_width} 0"/> 
+
+<!-- Создание объектов и их свойств: Пропеллер  -->
+<xacro:propeller prefix="forward_right" rpy="${1*pi/4} 0 0" xyz="${-base_length/4} 0 ${base_high/2 + 0.01}"/> 
+<xacro:propeller prefix="forward_left" rpy="${1*pi/4} 0 0" xyz="${base_length/4} 0 ${base_high/2 + 0.01}"/>
+<xacro:propeller prefix="backward_right" rpy="${1*pi/4} 0 0" xyz="${base_length/4} 0 ${base_high/2 + 0.01}"/>
+<xacro:propeller prefix="backward_left" rpy="${1*pi/4} 0 0" xyz="${-base_length/4} 0 ${base_high/2 + 0.01}"/>
+
+<!-- Создание объектов и их свойств: Колесо  -->
+<xacro:wheel prefix="forward_right" reflect="1" reflect2="-1"/>
+<xacro:wheel prefix="backward_right" reflect="-1" reflect2="-1"/>
+<xacro:wheel prefix="forward_left" reflect="1" reflect2="1"/>
+<xacro:wheel prefix="backward_left" reflect="-1" reflect2="1"/>
+
+</robot>
+
+
+
+
+
+
+
+
+

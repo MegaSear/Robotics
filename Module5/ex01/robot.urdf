@@ -1,0 +1,317 @@
+<?xml version="1.0" ?>
+
+<robot name="physics">
+  <!-- Константы: цвета-->
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+  <!-- Создание объекта: Основание -->
+  <link name="base_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.2 0.7 0.1"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.7 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <link name="wing_forward_right">
+    <visual>
+      <origin rpy="0 0 0.785"/>
+      <geometry>
+        <box size="0.2 0.7 0.1"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.7 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <link name="wing_forward_left">
+    <visual>
+      <origin rpy="0 0 5.495"/>
+      <geometry>
+        <box size="0.2 0.7 0.1"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.7 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <link name="wing_backward_right">
+    <visual>
+      <origin rpy="0 0 2.355"/>
+      <geometry>
+        <box size="0.2 0.7 0.1"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.7 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <link name="wing_backward_left">
+    <visual>
+      <origin rpy="0 0 3.9250000000000003"/>
+      <geometry>
+        <box size="0.2 0.7 0.1"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.7 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <joint name="wing_forward_right_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="wing_forward_right"/>
+    <origin xyz="-0.2 0.35 0"/>
+  </joint>
+  <joint name="wing_forward_left_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="wing_forward_left"/>
+    <origin xyz="0.2 0.35 0"/>
+  </joint>
+  <joint name="wing_backward_right_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="wing_backward_right"/>
+    <origin xyz="-0.2 -0.35 0"/>
+  </joint>
+  <joint name="wing_backward_left_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="wing_backward_left"/>
+    <origin xyz="0.2 -0.35 0"/>
+  </joint>
+  <link name="propeller_forward_right">
+    <visual>
+      <origin rpy="0 0.5233333333333333 0"/>
+      <geometry>
+        <box size="0.05 0.6 0.01"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 0.6 0.01"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <link name="propeller_forward_left">
+    <visual>
+      <origin rpy="0 2.6166666666666667 0"/>
+      <geometry>
+        <box size="0.05 0.6 0.01"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 0.6 0.01"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <link name="propeller_backward_right">
+    <visual>
+      <origin rpy="0 0.5233333333333333 0"/>
+      <geometry>
+        <box size="0.05 0.6 0.01"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 0.6 0.01"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <link name="propeller_backward_left">
+    <visual>
+      <origin rpy="0 2.6166666666666667 0"/>
+      <geometry>
+        <box size="0.05 0.6 0.01"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 0.6 0.01"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <joint name="propeller_forward_right_joint" type="continuous">
+    <parent link="wing_forward_right"/>
+    <child link="propeller_forward_right"/>
+    <origin xyz="-0.2 0.175 0.05"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="propeller_forward_left_joint" type="continuous">
+    <parent link="wing_forward_left"/>
+    <child link="propeller_forward_left"/>
+    <origin xyz="0.2 0.175 0.05"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="propeller_backward_right_joint" type="continuous">
+    <parent link="wing_backward_right"/>
+    <child link="propeller_backward_right"/>
+    <origin xyz="-0.2 -0.175 0.05"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="propeller_backward_left_joint" type="continuous">
+    <parent link="wing_backward_left"/>
+    <child link="propeller_backward_left"/>
+    <origin xyz="0.2 -0.175 0.05"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <link name="wheel_forward_right">
+    <visual>
+      <origin rpy="0 1.57 0"/>
+      <geometry>
+        <cylinder length="0.08" radius="0.1"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.08" radius="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <link name="wheel_forward_left">
+    <visual>
+      <origin rpy="0 1.57 0"/>
+      <geometry>
+        <cylinder length="0.08" radius="0.1"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.08" radius="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <link name="wheel_backward_right">
+    <visual>
+      <origin rpy="0 1.57 0"/>
+      <geometry>
+        <cylinder length="0.08" radius="0.1"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.08" radius="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <link name="wheel_backward_left">
+    <visual>
+      <origin rpy="0 1.57 0"/>
+      <geometry>
+        <cylinder length="0.08" radius="0.1"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.08" radius="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  <joint name="wheel_forward_right_joint" type="continuous">
+    <parent link="wing_forward_right"/>
+    <child link="wheel_forward_right"/>
+    <origin xyz="-0.2 0.175 -0.07"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="wheel_forward_left_joint" type="continuous">
+    <parent link="wing_forward_left"/>
+    <child link="wheel_forward_left"/>
+    <origin xyz="0.2 0.175 -0.07"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="wheel_backward_right_joint" type="continuous">
+    <parent link="wing_backward_right"/>
+    <child link="wheel_backward_right"/>
+    <origin xyz="-0.2 -0.175 -0.07"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="wheel_backward_left_joint" type="continuous">
+    <parent link="wing_backward_left"/>
+    <child link="wheel_backward_left"/>
+    <origin xyz="0.2 -0.175 -0.07"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+</robot>
